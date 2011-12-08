@@ -1,0 +1,4 @@
+app:
+  type: perl
+db:
+  type: mysql
