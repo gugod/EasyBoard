@@ -78,6 +78,7 @@ post '/' => sub {
         params->{body}
     );
 
+    flash("Posted.");
     redirect "/";
 };
 
