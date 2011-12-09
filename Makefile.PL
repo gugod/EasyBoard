@@ -18,6 +18,7 @@ WriteMakefile(
         'Plack'      => 0,
         'DBI'        => 0,
         'DBD::mysql' => 0,
+        'Template::Toolkit'
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'EasyBoard-*' },
