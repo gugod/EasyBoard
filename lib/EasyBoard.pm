@@ -1,12 +1,12 @@
 package EasyBoard;
 use Dancer ':syntax';
-use JSON;
+use JSON ();
 use DBI;
 
 my $DOTCLOUD_ENV = undef;
 
-if (-f $_ = "/home/dotcloud/environment.json") {
-    open my $fh, "<",  or die $!;
+if (-f "/home/dotcloud/environment.json") {
+    open my $fh, "<", "/home/dotcloud/environment.json" or die $!;
     $DOTCLOUD_ENV = JSON::decode_json(join '', <$fh>);
 }
 
