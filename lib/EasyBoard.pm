@@ -14,7 +14,21 @@ sub flash {
 }
 
 sub database {
-    my $dbh = DBI->connect("dbi:mysql:dbname=easyboard", "root");
+    my $dsn = "dbi:mysql:dbname=easyboard";
+
+    if ($_ = $ENV{DOTCLOUD_DB_MYSQL_HOST}) {
+        $dsn .= ";host=$_";
+    }
+
+    if ($_ = $ENV{DOTCLOUD_DB_MYSQL_PORT}) {
+        $dsn .= ";port=$_";
+    }
+
+    my $dbh = DBI->connect(
+        $dsn,
+        $ENV{DOTCLOUD_DB_MYSQL_LOGIN}    || "root",
+        $ENV{DOTCLOUD_DB_MYSQL_PASSWORD} || ""
+    );
 
     $dbh->do(<<SCHEMA);
       create table if not exists entries (
