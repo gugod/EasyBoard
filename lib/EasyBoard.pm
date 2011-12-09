@@ -14,7 +14,7 @@ sub flash {
 }
 
 sub database {
-    my $dsn = "dbi:mysql:dbname=easyboard";
+    my $dsn = "DBI:mysql:database=easyboard";
 
     if ($_ = $ENV{DOTCLOUD_DB_MYSQL_HOST}) {
         $dsn .= ";host=$_";
@@ -26,8 +26,8 @@ sub database {
 
     my $dbh = DBI->connect(
         $dsn,
-        $ENV{DOTCLOUD_DB_MYSQL_LOGIN}    || "root",
-        $ENV{DOTCLOUD_DB_MYSQL_PASSWORD} || ""
+        ($ENV{DOTCLOUD_DB_MYSQL_LOGIN}    || "root"),
+        ($ENV{DOTCLOUD_DB_MYSQL_PASSWORD} || "")
     );
 
     $dbh->do(<<SCHEMA);
