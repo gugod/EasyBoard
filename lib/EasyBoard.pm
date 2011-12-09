@@ -31,15 +31,7 @@ sub database {
 
     $dbh = DBI->connect($dsn, $user, $pass, { mysql_auto_reconnect => 1, mysql_enable_utf8 => 1 })
         or die "Fail to connect to db: $!";
-
     $dbh->do("SET NAMES UTF8");
-    $dbh->do(<<SCHEMA);
-      create table if not exists entries (
-          id integer primary key auto_increment,
-          name varchar(255) not null default 'Someone',
-          body text not null
-      ) DEFAULT CHARACTER SET = utf8 COLLATE = utf8_bin;
-SCHEMA
 
     return $dbh;
 }
@@ -89,3 +81,16 @@ post '/' => sub {
 };
 
 true;
+
+
+__END__
+
+mysql schema:
+
+create database easyboard;
+
+create table if not exists entries (
+    id integer primary key auto_increment,
+    name varchar(255) not null default 'Someone',
+    body text not null
+) DEFAULT CHARACTER SET = utf8 COLLATE = utf8_bin;
