@@ -2,15 +2,18 @@ package EasyBoard;
 use Dancer ':syntax';
 use JSON ();
 use DBI;
+our $VERSION = '0.1';
 
 my $DOTCLOUD_ENV = undef;
+my $DOTCLOUD_ENV_FILE = "/home/dotcloud/environment.json";
 
-if (-f "/home/dotcloud/environment.json") {
-    my $fh = open("<", "/home/dotcloud/environment.json") or die $!;
-    $DOTCLOUD_ENV = JSON::decode_json(join '', <$fh>);
+if (-f $DOTCLOUD_ENV_FILE) {
+    open(my $fh, "<", $DOTCLOUD_ENV_FILE) or die $!;
+    local $/ = undef;
+    my $json = <$fh>;
+    $DOTCLOUD_ENV = JSON::decode_json($json);
+    close($fh);
 }
-
-our $VERSION = '0.1';
 
 my $flash = "";
 
@@ -21,7 +24,10 @@ sub flash {
     return $flash;
 }
 
+my $dbh;
 sub database {
+    return $dbh if $dbh;
+
     my $dsn = "DBI:mysql:database=easyboard";
     my ($user, $pass) = ("root", "");
 
@@ -32,7 +38,7 @@ sub database {
         $pass = $DOTCLOUD_ENV->{DOTCLOUD_DB_MYSQL_PASSWORD};
     }
 
-    my $dbh = DBI->connect($dsn, $user, $pass);
+    $dbh = DBI->connect($dsn, $user, $pass, { mysql_auto_reconnect => 1, mysql_enable_utf8 => 1 });
 
     $dbh->do(<<SCHEMA);
       create table if not exists entries (
