@@ -38,8 +38,6 @@ sub database {
 
 database(); # connect to database on startup
 
-my $flash;
-
 sub flash {
     if (defined($_[0])) {
         session flash => $_[0];
