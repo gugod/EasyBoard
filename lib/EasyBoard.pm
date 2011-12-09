@@ -6,7 +6,7 @@ use DBI;
 my $DOTCLOUD_ENV = undef;
 
 if (-f "/home/dotcloud/environment.json") {
-    open my $fh, "<", "/home/dotcloud/environment.json" or die $!;
+    my $fh = open("<", "/home/dotcloud/environment.json") or die $!;
     $DOTCLOUD_ENV = JSON::decode_json(join '', <$fh>);
 }
 
