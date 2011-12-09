@@ -8,8 +8,8 @@ my $DOTCLOUD_ENV = undef;
 my $DOTCLOUD_ENV_FILE = "/home/dotcloud/environment.json";
 
 if (-f $DOTCLOUD_ENV_FILE) {
-    open(my $fh, "<", $DOTCLOUD_ENV_FILE) or die $!;
     local $/ = undef;
+    open(my $fh, "<", $DOTCLOUD_ENV_FILE) or die $!;
     my $json = <$fh>;
     $DOTCLOUD_ENV = JSON::decode_json($json);
     close($fh);
@@ -32,8 +32,8 @@ sub database {
     $dbh = DBI->connect($dsn, $user, $pass, { mysql_auto_reconnect => 1, mysql_enable_utf8 => 1 })
         or die "Fail to connect to db: $!";
 
+    $dbh->do("SET NAMES UTF8");
     $dbh->do(<<SCHEMA);
-      SET NAMES UTF8;
       create table if not exists entries (
           id integer primary key auto_increment,
           name varchar(255) not null default 'Someone',
@@ -44,13 +44,19 @@ SCHEMA
     return $dbh;
 }
 
-my $flash = "";
+database(); # connect to database on startup
+
+my $flash;
 
 sub flash {
     if (defined($_[0])) {
-        $flash = $_[0];
+        session flash => $_[0];
+        return $_[0];
     }
-    return $flash;
+
+    my $x = session('flash');
+    session flash => undef;
+    return $x;
 }
 
 get '/' => sub {

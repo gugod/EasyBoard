@@ -5,6 +5,9 @@
 # Your application's name
 appname: "EasyBoard"
 
+session: "Cookie"
+session_cookie_key: 99cecf3c72ea24d667e3d530acdd8499cea49f3dd2ac2e0cc2d74490fbc89db5849bfdac25323a62
+  
 # The default layout to use for your application (located in
 # views/layouts/main.tt)
 layout: "main"

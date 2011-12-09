@@ -19,7 +19,8 @@ WriteMakefile(
         'DBI'        => 0,
         'DBD::mysql' => 0,
         'JSON'       => 0,
-        'Template::Toolkit' => 0
+        'Template::Toolkit' => 0,
+        'Dancer::Session::Cookie' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'EasyBoard-*' },
