@@ -33,7 +33,7 @@ sub database {
         or die "Fail to connect to db: $!";
 
     $dbh->do(<<SCHEMA);
-      SET NAMES UTF-8;
+      SET NAMES UTF8;
       create table if not exists entries (
           id integer primary key auto_increment,
           name varchar(255) not null default 'Someone',
