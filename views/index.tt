@@ -1,35 +1,23 @@
-  
-<!-- 
-    Credit goes to the Ruby on Rails team for this page 
-    has been heavily based on the default Rails page that is 
-    built with a scaffolded application.
-
-    Thanks a lot to them for their work.
-
-    See Ruby on Rails if you want a kickass framework in Ruby:
-    http://www.rubyonrails.org/
--->
-
 <div id="page">
-      <div id="sidebar">
+    <div id="sidebar">
         <ul id="sidebar-items">
-          <li>
-            <h3>Join the community</h3>
-            <ul class="links">
+            <li>
+                <h3>Join the community</h3>
+                <ul class="links">
 
-              <li><a href="http://perldancer.org/">PerlDancer</a></li>
-              <li><a href="http://twitter.com/PerlDancer/">Official Twitter</a></li>
-              <li><a href="http://github.com/sukria/Dancer/">GitHub Community</a></li>
-            </ul>
-          </li>
+                    <li><a href="http://perldancer.org/">PerlDancer</a></li>
+                    <li><a href="http://twitter.com/PerlDancer/">Official Twitter</a></li>
+                    <li><a href="http://github.com/sukria/Dancer/">GitHub Community</a></li>
+                </ul>
+            </li>
         </ul>
 
-      </div>
+    </div>
 
-      <div id="content">
+    <div id="content">
         <div id="header">
-          <h1>Eazy Board</h1>
-          <h2>Leave a message</h2>
+            <h1>Eazy Board</h1>
+            <h2>Leave a message</h2>
         </div>
 
         <% IF flash %>
@@ -44,10 +32,7 @@
 
         <hr>
         <% FOREACH entries %>
-        <p class="message">
-            <% name %> : <% body %>
-        </p>
+        <p class="message"><% name | html %> : <% body | html%></p>
         <% END %>
-
-      </div>
     </div>
+</div>
