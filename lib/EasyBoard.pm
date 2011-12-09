@@ -15,15 +15,6 @@ if (-f $DOTCLOUD_ENV_FILE) {
     close($fh);
 }
 
-my $flash = "";
-
-sub flash {
-    if (defined($_[0])) {
-        $flash = $_[0];
-    }
-    return $flash;
-}
-
 my $dbh;
 sub database {
     return $dbh if $dbh;
@@ -32,13 +23,14 @@ sub database {
     my ($user, $pass) = ("root", "");
 
     if ($DOTCLOUD_ENV) {
-        $dsn .= ";host=" . $DOTCLOUD_ENV->{DOTCLOUD_MYSQL_HOST};
-        $dsn .= ";port=" . $DOTCLOUD_ENV->{DOTCLOUD_MYSQL_PORT};
+        $dsn .= ";host=" . $DOTCLOUD_ENV->{DOTCLOUD_DB_MYSQL_HOST};
+        $dsn .= ";port=" . $DOTCLOUD_ENV->{DOTCLOUD_DB_MYSQL_PORT};
         $user = $DOTCLOUD_ENV->{DOTCLOUD_DB_MYSQL_LOGIN};
         $pass = $DOTCLOUD_ENV->{DOTCLOUD_DB_MYSQL_PASSWORD};
     }
 
-    $dbh = DBI->connect($dsn, $user, $pass, { mysql_auto_reconnect => 1, mysql_enable_utf8 => 1 });
+    $dbh = DBI->connect($dsn, $user, $pass, { mysql_auto_reconnect => 1, mysql_enable_utf8 => 1 })
+        or die "Fail to connect to db: $!";
 
     $dbh->do(<<SCHEMA);
       create table if not exists entries (
@@ -49,6 +41,15 @@ sub database {
 SCHEMA
 
     return $dbh;
+}
+
+my $flash = "";
+
+sub flash {
+    if (defined($_[0])) {
+        $flash = $_[0];
+    }
+    return $flash;
 }
 
 get '/' => sub {
